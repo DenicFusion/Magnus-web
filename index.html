@@ -24,15 +24,26 @@
 
     *{box-sizing:border-box;margin:0;padding:0}
     html{scroll-behavior:smooth}
-    body{
-      font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      background:var(--bg);
-      color:var(--text);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
-      line-height:1.5;
-      padding-bottom:60px;
-    }
+body{
+  font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  background: url('https://i.ibb.co/zH78Jkq7/images-6.jpg') center center / cover fixed no-repeat;
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  line-height:1.5;
+  padding-bottom:60px;
+  position:relative;
+  min-height:100vh;
+} 
+<div class="bg-overlay" aria-hidden="true"></div>
+.bg-overlay{
+  position:fixed;
+  inset:0;
+  background: rgba(15,17,19,0.65); /* darkens background for contrast; adjust alpha */
+  backdrop-filter: blur(4px);        /* subtle blur for legibility */
+  z-index: -1;                       /* keep overlay behind content */
+}
+
     .image-caption p {
   font-weight: 600;         /* heavier weight */
   color: #d9dbe0;           /* slightly brighter for contrast */
@@ -440,4 +451,4 @@ Why choose MAGNUS?
     // Replace: top-video.mp4, video-poster.jpg, image-1.jpg, image-2.jpg, image-3.jpg
   </script>
 </body>
-                                                                                                                    </html>
+</html>
