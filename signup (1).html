@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Ethereal Signup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet"/>
+  <script src="https://checkout.flutterwave.com/v3.js"></script>
+  <style>
+    :root {
+      --accent: #00cc66;
+      --yellow: #ffd700;
+      --error: #ff3333;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('https://i.ibb.co/KxPZmcvv/Untitled-design-20250718-115206-0000.png') center/cover fixed no-repeat;
+      color: #fff;
+    }
+    #progress {
+      position: fixed; top: 0; left: 0; width: 100%; height: 3px;
+      background: var(--accent); display: none; z-index: 10000;
+    }
+    #buttonSpinner {
+      position: fixed; bottom: 20px; left: 0; width: 100%;
+      text-align: center; display: none; z-index: 10000;
+    }
+    .spinner {
+      border: 5px solid #f3f3f3;
+      border-top: 5px solid var(--accent);
+      border-radius: 50%; width: 30px; height: 30px;
+      animation: spin 1s linear infinite; margin: auto;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .container {
+      max-width: 500px; margin: 60px auto; padding: 20px;
+      background: rgba(0,0,0,0.4); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 0 20px rgba(0,255,128,0.3);
+      border-radius: 20px; position: relative;
+    }
+.container h2,
+.container .input-group,
+.container button {
+  text-align: center;
+}
+.logo, .tagline {
+  text-align: center;
+}
+    .hidden { display: none; }
+
+    .logo { text-align: center; margin-top: 20px; }
+    .logo img {
+      max-width: 180px;
+      filter: drop-shadow(0 0 6px rgba(0,255,128,0.35));
+      transition: transform .3s;
+    }
+    .logo img:hover { transform: scale(1.04); }
+    .tagline { text-align: center; font-size: 14px; color: #ddd; margin-bottom: 20px; }
+
+    .input-group { margin: 8px 0; position: relative; }
+    input, select, button {
+      width: 100%; padding: 12px; font-size: 16px;
+      border: none; border-radius: 8px;
+    }
+    input, select {
+      background-color: #d3d3d3; color: #000;
+      height: 48px;
+    }
+    input::placeholder { color: #666; }
+    .error-message { color: var(--error); font-size: 13px; min-height: 18px; }
+
+    button {
+  background: #006400;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 12px;
+  transition: background .2s;
+}
+    button:hover { background: #004d00; }
+
+    .password-wrap { position: relative; }
+    .password-wrap input { padding-right: 40px; }
+    .password-wrap i {
+      position: absolute; top: 50%; right: 12px;
+      transform: translateY(-100%); font-size: 18px;
+      color: #666; cursor: pointer; line-height: 1;
+    }
+
+    .flex-plans { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+    .plan { flex: 1 1 200px; padding: 16px; border-radius: 12px; background: rgba(255,255,255,0.1); position: relative; }
+    .standard { background: #003300; color: #fff; }
+    .eth-x {
+  background: #32cd32; /* Ethereal X green – rich dark */
+  color: #fff;
+}
+    .recommended-badge {
+      position: absolute; top: 12px; right: 12px;
+      background: var(--yellow); color: #000;
+      padding: 4px 8px; font-size: 12px; font-weight: bold; border-radius: 12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="progress"></div>
+  <div id="buttonSpinner"><div class="spinner"></div></div>
+
+  <div class="logo">
+    <img src="https://i.ibb.co/4wcxCkjV/23a8cc6a4933f22ba7c4740a9be7c3373f031124-md-WBW.png" alt="Ethereal Logo"/>
+  </div>
+  <p class="tagline">Elevate your earnings with Ethereal</p>
+
+  <!-- PAGE 1: SIGN UP (container id must be “page1”) -->
+  <div id="page1" class="container">
+    <form id="signupForm">
+      <h2>SIGN UP ON ETHEREAL</h2>
+
+      <div class="input-group">
+        <input id="fullName" type="text" placeholder="Full Name" required />
+        <div class="error-message" id="errName"></div>
+      </div>
+
+      <div class="input-group">
+        <input id="username" type="text" placeholder="Username" required />
+        <div class="error-message" id="errUser"></div>
+      </div>
+
+      <div class="input-group">
+        <input id="email" type="email" placeholder="Email" required />
+        <div class="error-message" id="errEmail"></div>
+      </div>
+
+      <div class="input-group">
+        <select id="country" required>
+          <option value="">Select Country</option>
+          <option value="NG">Nigeria</option><option value="GH">Ghana</option><option value="LR">Liberia</option>
+          <option value="KE">Kenya</option><option value="UG">Uganda</option><option value="TZ">Tanzania</option>
+          <option value="BW">Botswana</option><option value="ZA">South Africa</option>
+          <option value="CI">Ivory Coast</option><option value="TG">Togo</option>
+          <option value="ML">Mali</option><option value="BJ">Benin</option><option value="BF">Burkina Faso</option>
+        </select>
+        <div class="error-message" id="errCountry"></div>
+      </div>
+
+      <div class="input-group">
+        <input id="phone" type="tel" placeholder="Phone Number" required />
+        <div class="error-message" id="errPhone"></div>
+      </div>
+
+      <div class="input-group password-wrap">
+        <input id="password" type="password" placeholder="Password" required />
+        <i id="togglePass" class="fas fa-eye-slash" onclick="togglePass()"></i>
+        <div class="error-message" id="errPass"></div>
+      </div>
+
+      <button type="submit">Sign Up</button>
+    </form>
+  </div>
+
+  <!-- PAGE 2: PACKAGE SELECTION -->
+  <div id="page2" class="container hidden">
+    <h2>Select Your Preferred Package</h2>
+    <div class="flex-plans">
+      <div class="plan standard">
+        <h3 id="standardTitle">Ethereal Standard</h3>
+        <ul style="font-size:14px;line-height:1.6;color:#fff;">
+          <li>No AI-assisted earnings</li><li>Full access to all features</li><li>5 months validity</li>
+          <li>Limited links, manual clicks</li><li>Only Candy Crush game</li><li>Welcome freebie up to 3GB data</li>
+          <li>Earn up to $20 daily</li><li>Full payments guaranteed</li><li>No level-up bonuses</li>
+        </ul>
+        <button onclick="redirectToPayment('standard')">Subscribe to Standard</button>
+      </div>
+      <div class="plan eth-x">
+        <div class="recommended-badge"><i class="fa-solid fa-rocket"></i> Recommended</div>
+        <h3 id="xTitle">Ethereal X</h3>
+        <ul style="font-size:14px;line-height:1.6;color:#000;">
+          <li>AI-assisted earnings</li><li>Full access to all features</li><li>1 year validity</li>
+          <li>Unlimited games & earnings</li><li>Welcome freebie up to 5GB data</li><li>Earn $50+ daily</li>
+          <li>Level-up bonuses enabled</li><li>Automated flash-claim rewards</li><li>Sell AI products globally</li>
+        </ul>
+        <button onclick="redirectToPayment('x')">Subscribe to Ethereal X</button>
+      </div>
+    </div>
+  </div>
+
+<script src="https://js.paystack.co/v1/inline.js"></script>
+<script>
+  //---- STATE & NAVIGATION ----
+  const pages = ['page1','page2'];
+  let selectedCountry = '', selectedPackage = '';
+      // Native validation + custom validateForm()
+    document.getElementById('signupForm').addEventListener('submit', function(e) {
+      if (!this.checkValidity()) {
+        this.reportValidity(); // shows “Please fill out this field”
+        e.preventDefault();
+        return;
+      }
+      e.preventDefault();
+      validateForm();
+    });
+
+  window.onload = () => {
+    const h = location.hash.replace('#','');
+    if (pages.includes(h)) goToPage(pages.indexOf(h) + 1);
+    else history.replaceState({page:1},'', '#page1');
+  };
+  window.onpopstate = e => {
+    const pg = e.state?.page || 1;
+    showProgress(() => goToPage(pg));
+  };
+
+  function showProgress(cb, type='full') {
+    const bar  = document.getElementById('progress'),
+          spin = document.getElementById('buttonSpinner');
+    if (type==='button') {
+      spin.style.display = 'block';
+      return setTimeout(()=>{
+        spin.style.display = 'none';
+        cb();
+      }, 1200);
+    }
+    bar.style.display = 'block';
+    setTimeout(()=>{
+      bar.style.display = 'none';
+      cb();
+    }, 1200);
+  }
+
+  function goToPage(n) {
+    pages.forEach((id,i)=>
+      document.getElementById(id).classList.toggle('hidden', i+1 !== n)
+    );
+    history.pushState({page:n},'', `#${pages[n-1]}`);
+  }
+
+  //---- FORM VALIDATION ----
+  function validateForm() {
+    ['errName','errUser','errEmail','errCountry','errPhone','errPass']
+      .forEach(id => document.getElementById(id).innerText = '');
+
+    const fn = document.getElementById('fullName').value.trim(),
+          un = document.getElementById('username').value.trim(),
+          em = document.getElementById('email').value.trim(),
+          ct = document.getElementById('country').value,
+          ph = document.getElementById('phone').value.trim(),
+          pw = document.getElementById('password').value.trim();
+
+    if (!fn) return errName.innerText = 'Required';
+    if (!un) return errUser.innerText = 'Required';
+    if (!em) return errEmail.innerText = 'Required';
+    if (!ct) return errCountry.innerText = 'Required';
+    if (!ph) return errPhone.innerText = 'Required';
+    if (!pw) return errPass.innerText = 'Required';
+
+    selectedCountry = ct;
+    showProgress(() => goToPage(2), 'button');
+
+    // update package titles
+    const flag = flagMap[ct] || '🌍',
+          pr   = pricing[ct];
+    standardTitle.innerText = `${flag} Ethereal Standard – ${pr.sym}${pr.standard}`;
+    xTitle.innerText        = `${flag} Ethereal X – ${pr.sym}${pr.x}`;
+  }
+
+  //---- PASSWORD TOGGLE ----
+  function togglePass() {
+    const inp = document.getElementById('password'),
+          ic  = document.getElementById('togglePass');
+    if (inp.type === 'password') {
+      inp.type = 'text';
+      ic.classList.replace('fa-eye-slash','fa-eye');
+    } else {
+      inp.type = 'password';
+      ic.classList.replace('fa-eye','fa-eye-slash');
+    }
+  }
+
+  //---- PRICING & FLAGS ----
+  const flagMap = {
+    NG:'🇳🇬', GH:'🇬🇭', LR:'🇱🇷', KE:'🇰🇪',
+    UG:'🇺🇬', TZ:'🇹🇿', BW:'🇧🇼', ZA:'🇿🇦',
+    CI:'🇨🇮', TG:'🇹🇬', ML:'🇲🇱', BJ:'🇧🇯', BF:'🇧🇫'
+  };
+
+  const pricing = {
+    NG:{sym:'₦',   standard:9000,  x:14000},
+    GH:{sym:'GH₵',standard:170,   x:215},
+    LR:{sym:'LRD',standard:3100, x:4250},
+    KE:{sym:'KES',standard:2100, x:2800},
+    UG:{sym:'UGX',standard:52000,x:76000},
+    TZ:{sym:'TZS',standard:42000,x:58000},
+    BW:{sym:'BWP',standard:230,  x:310},
+    ZA:{sym:'ZAR',standard:300,  x:440},
+    CI:{sym:'XOF',standard:9000, x:14000},
+    TG:{sym:'XOF',standard:9000, x:14000},
+    ML:{sym:'XOF',standard:9000, x:14000},
+    BJ:{sym:'XOF',standard:9000, x:14000},
+    BF:{sym:'XOF',standard:9000, x:14000}
+  };
+
+  //---- INLINE PAYMENT HANDLER ----
+  function redirectToPayment(pkg) {
+    console.log('redirectToPayment fired:', pkg, selectedCountry);
+    selectedPackage = pkg;
+    const country = selectedCountry,
+          pr      = pricing[country];
+    if (!pr) return alert('Please select a valid country.');
+
+    // grab form values
+    const fullNameVal = document.getElementById('fullName').value.trim(),
+          userVal     = document.getElementById('username').value.trim(),
+          emailVal    = document.getElementById('email').value.trim(),
+          phoneVal    = document.getElementById('phone').value.trim(),
+          amountVal   = pr[pkg];
+    const refID = 'ETH' + Date.now();  // we'll reuse for both
+
+    // build WhatsApp message
+    const waMsg = `
+Hello! I’ve completed payment for Ethereal 💚
+Full Name: ${fullNameVal}
+Username: ${userVal}
+Email: ${emailVal}
+Phone: ${phoneVal}
+Country: ${country}
+Package: ${pkg === 'standard' ? 'Standard' : 'X'}
+Amount: ${pr.sym}${amountVal}
+Ref: ${refID}
+`.trim();
+
+    if (country === 'NG') {
+      PaystackPop.setup({
+        key: 'pk_live_4757dc125ac46418902e550307bc3b4c0d43b3cd',  // ← your key here
+        email: emailVal,
+        amount: amountVal * 100,
+        currency: 'NGN',
+        ref: 'ETH' + Date.now(),
+        metadata: {
+          custom_fields: [
+            { display_name: "Full Name", variable_name: "full_name", value: fullNameVal },
+            { display_name: "Username",  variable_name: "username",  value: userVal }
+          ]
+        },
+        callback: () => {
+          window.location.href = 'https://t.me/Coach_Div?text=' + encodeURIComponent(waMsg);
+        },
+        onclose: function() {
+  showProgress(() => goToPage(2), 'button');
+}
+      }).openIframe();
+    } else {
+      FlutterwaveCheckout({
+        public_key: 'FLWPUBK_TEST-31256d75a951eafb96f8d008239a323d-X', // ← your key here
+        tx_ref: 'ETH' + Date.now(),
+        amount: amountVal,
+        currency: pr.sym,
+        payment_options: 'card,banktransfer',
+        customer: {
+          email: emailVal,
+          name: fullNameVal,
+          phone_number: phoneVal
+        },
+        callback: () => {
+          window.location.href = 'https://t.me/Coach_Div?text=' + encodeURIComponent(waMsg);
+        },
+        onclose: () => {
+          history.pushState({page: 2}, '', '#page2');
+goToPage(2);
+        },
+        customizations: {
+          title: 'Ethereal Subscription',
+          description: `${pkg === 'standard' ? 'Standard Plan' : 'X Plan'} Subscription`,
+          logo: 'https://i.ibb.co/4wcxCkjV/23a8cc6a4933f22ba7c4740a9be7c3373f031124-md-WBW.png'
+        }
+      });
+    }
+  }
+</script>
+</body>
+</html>
