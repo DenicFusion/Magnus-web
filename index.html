@@ -1,404 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Ethereal • Home</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Magnus • Home</title>
 
   <!-- Fonts & Icons -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&display=swap"
-    rel="stylesheet"
-  />
-  <link
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    rel="stylesheet"
-  />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 
   <style>
-    :root {
-      --black: #000;
-      --white: #fff;
-      --text-light: #f0f0f0;
-      --dark-text: #111;
-      --accent: #00cc66;
-      --glow-color: rgba(0,204,102,0.7);
-      --card-bg: #111;
-      --hover-bg: #222;
-      --faq-border: rgba(255,255,255,0.1);
+    :root{
+      --primary:#ff6600;
+      --primary-600:#e65c00;
+      --bg:#0f1113;
+      --card:#161719;
+      --muted:#bfc4c8;
+      --text:#eef1f3;
+      --glass: rgba(255,255,255,0.03);
+      --radius:12px;
+      --gap:20px;
     }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      background: var(--black);
-      color: var(--text-light);
-      font-family: 'Poppins', sans-serif;
-      line-height: 1.5;
-    }
-    a { color: var(--accent); text-decoration: none; }
 
-    /* Glowing Button */
-    .btn-glow {
-      background: var(--accent);
-      color: #000;
-      padding: 12px 28px;
-      border-radius: 8px;
-      border: none;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow:
-        0 0 8px var(--accent),
-        0 0 16px var(--glow-color),
-        inset 0 0 4px rgba(255,255,255,0.5);
-      text-shadow: 0 0 6px rgba(255,255,255,0.8);
-      transition: box-shadow 0.3s ease, transform 0.2s ease;
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.5;
+      padding-bottom:60px;
     }
-    .btn-glow:hover {
-      box-shadow:
-        0 0 12px var(--accent),
-        0 0 24px var(--glow-color),
-        inset 0 0 6px rgba(255,255,255,0.6);
-      transform: translateY(-2px);
+    .image-caption p {
+  font-weight: 600;         /* heavier weight */
+  color: #d9dbe0;           /* slightly brighter for contrast */
+  font-size: 1rem;          /* keep or increase slightly if needed */
+  line-height: 1.45;        /* improves readability when bolder */
+  letter-spacing: 0.1px;    /* subtle tightening for a crisp look */
+}
+
+    a{color:var(--primary);text-decoration:none}
+    a:hover{color:var(--primary-600)}
+
+    /* Header */
+    header{
+      position:sticky;top:0;z-index:1200;
+      display:flex;align-items:center;justify-content:space-between;
+      background:linear-gradient(180deg, rgba(20,20,20,0.9), rgba(20,20,20,0.8));
+      padding:12px 20px;border-bottom:1px solid rgba(255,255,255,0.03);
+      backdrop-filter: blur(6px);
     }
-    .get-started-button {
-  background-color: black;
-  color: white;
-  border: none;
-  padding: 15px 30px;
-  font-size: 18px;
-  font-weight: bold;
-  border-radius: 12px;
-  cursor: pointer;
-  display: inline-flex;
+    .logo img{height:40px;display:block}
+    .nav-actions{display:flex;align-items:center;gap:10px}
+    .signup-tight{margin-right:6px}
+    .btn{
+      display:inline-flex;align-items:center;gap:10px;padding:10px 16px;border-radius:10px;
+      background:linear-gradient(180deg,var(--primary),var(--primary-600));
+      color:#fff;border:none;font-weight:600;cursor:pointer;box-shadow:0 6px 20px rgba(255,102,0,0.12);
+      transition:transform .12s ease,box-shadow .12s ease;
+    }
+    .btn:active{transform:translateY(1px)}
+    .menu-btn{display:flex;flex-direction:column;gap:4px;background:none;border:0;padding:8px;cursor:pointer}
+    .menu-btn .line{width:20px;height:2px;background:var(--text);border-radius:2px}
+
+    #menuOverlay{
+      position:absolute;top:64px;right:20px;background:var(--card);padding:14px;border-radius:10px;
+      box-shadow:0 10px 30px rgba(0,0,0,0.6);display:none;min-width:160px;border:1px solid rgba(255,255,255,0.03)
+    }
+    #menuOverlay.open{display:block}
+    #menuOverlay ul{list-style:none}
+    #menuOverlay li{padding:8px 0}
+    #menuOverlay a{color:var(--text);font-weight:600;font-size:0.96rem}
+
+    /* Hero video */
+    #hero-video{width:100%;max-height:58vh;overflow:hidden;background:#000;display:flex;align-items:center;justify-content:center}
+    #hero-video video{width:100%;height:auto;display:block;object-fit:cover}
+
+    /* Hero content */
+    .hero{padding:56px 20px 40px;text-align:center;max-width:1100px;margin:0 auto}
+    .tag-small{color:var(--primary);font-weight:600;font-size:0.98rem;margin-bottom:10px;display:block}
+    .tag-large{font-size:2.6rem;font-weight:700;line-height:1.08;margin-bottom:14px;color:#fff}
+    .hero p{max-width:760px;margin:0 auto 22px;color:var(--muted);font-size:1rem}
+
+    /* Get started layout */
+    .hero .actions{display:flex;gap:14px;justify-content:center;align-items:center;margin-top:8px}
+    .get-start{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text);padding:10px 18px;border-radius:10px;font-weight:600;cursor:pointer}
+    .get-start:hover{border-color:rgba(255,255,255,0.12)}
+
+    /* Image block */
+    .image-wrap{padding:28px 20px;max-width:1100px;margin:18px auto;background:var(--glass);border-radius:var(--radius);border:1px solid rgba(255,255,255,0.02)}
+    .content-image{width:100%;height:auto;border-radius:10px;background:#0b0b0b;min-height:220px;object-fit:cover;display:block}
+    .image-caption{margin-top:14px;padding:0 6px}
+    .image-caption h4{font-size:1.02rem;font-weight:700;color:#fff;margin-bottom:8px;letter-spacing:0.2px}
+    .image-caption p{color:var(--muted);font-size:0.97rem;white-space:pre-wrap}
+
+    /* Features grid */
+    .features{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;padding:44px 20px;max-width:1200px;margin:0 auto;align-items:start}
+    .card{background:var(--card);padding:20px;border-radius:12px;border:1px solid rgba(255,255,255,0.02);box-shadow:0 8px 30px rgba(8,8,8,0.5);text-align:center}
+    .card i{font-size:1.6rem;color:var(--primary);display:block;margin-bottom:12px}
+    .card h3{font-size:1.05rem;margin-bottom:8px;color:#fff;font-weight:700}
+    .card p{color:var(--muted);font-size:0.95rem}
+
+    /* Make middle image span full width inside the grid */
+    #image-middle-in-features{grid-column:1/-1;padding:22px;background:linear-gradient(180deg, rgba(255,102,0,0.04), rgba(255,102,0,0.02));border-radius:12px;border:1px solid rgba(255,102,0,0.06)}
+
+    /* FAQ */
+    #faq{padding:44px 20px}
+    #faq h2{text-align:center;font-size:1.6rem;margin-bottom:22px;color:#fff}
+    .accordion{max-width:760px;margin:0 auto;border-top:1px solid rgba(255,255,255,0.03)}
+    .accordion-item{border-bottom:1px solid rgba(255,255,255,0.03)}
+    .accordion-item button{width:100%;padding:16px;background:none;border:0;color:var(--text);font-size:1rem;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
+    .accordion-item .content{display:none;padding:0 16px 18px;color:var(--muted)}
+    /* Ensure FAQ question buttons are straight (not italic) and visually consistent */
+.accordion-item button {
+  font-style: normal;         /* no italics */
+  font-weight: 600;           /* slightly bolder for emphasis */
+  color: #eef1f3;             /* match main text color */
+  letter-spacing: 0.2px;
+  display: flex;
   align-items: center;
-  gap: 10px;
-  position: relative;
-  box-shadow: inset 0 0 0 3px #00FF00;
-  transition: box-shadow 0.3s ease;
+  justify-content: space-between;
+  gap: 12px;
 }
-
-.get-started-button:hover {
-  box-shadow: inset 0 0 0 3px #00cc00;
-}
-
-.get-started-button svg {
-  width: 20px;
-  height: 20px;
-  fill: #00FF00;
-}
-
-    /* HEADER */
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 20px;
-      background: #001a12;
-    }
-    .logo-area img {
-      height: 40px;
-    }
-    /* Hamburger (three straight lines) */
-    .menu-btn {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-      background: none;
-      border: none;
-      cursor: pointer;
-    }
-    .menu-btn .line {
-      width: 24px;
-      height: 2px;
-      background: var(--text-light);
-    }
-    /* Slide-out Menu */
-    #menuOverlay {
-      position: absolute;
-      top: 60px;
-      left: 20px;
-      background: rgba(0,0,0,0.9);
-      border-radius: 8px;
-      padding: 12px 20px;
-      display: none;
-    }
-    #menuOverlay.open { display: block; }
-    #menuOverlay ul { list-style: none; }
-    #menuOverlay li { margin-bottom: 12px; }
-    #menuOverlay li:last-child { margin-bottom: 0; }
-    #menuOverlay a { color: var(--text-light); font-size: 1rem; }
-
-    /* HERO */
-    .hero {
-      position: relative;
-      background: var(--black);
-      padding: 100px 20px 140px;
-      text-align: center;
-      overflow: hidden;
-    }
-    .hero .small-tagline {
-      color: var(--accent);
-      font-size: 1.1rem;
-      display: block;
-      margin-bottom: 8px;
-    }
-    .hero .large-tagline {
-      color: #fff;
-      font-size: 2.8rem;
-      font-weight: 700;
-      margin-bottom: 24px;
-      line-height: 1.2;
-    }
-    .hero p {
-      color: #ccc;
-      font-size: 1rem;
-      max-width: 600px;
-      margin: 0 auto 32px;
-    }
-    .hero-graphic {
-      position: absolute;
-      bottom: 0; right: 20px;
-      width: 300px; max-width: 40%;
-      opacity: 0.9;
-    }
-    .hero-graphic img {
-      width: 100%;
-      border-radius: 12px;
-    }
-
-    /* PROMO BLOCKS */
-    .promo-block {
-      padding: 60px 20px;
-      border-top: 1px solid var(--faq-border);
-      text-align: center;
-      background: var(--black);
-    }
-    .promo-block .promo-img {
-      width: 100%; max-width: 800px;
-      margin: 0 auto 24px; border-radius: 8px;
-    }
-    .promo-block h2 {
-      color: var(--accent); font-size: 1.6rem; margin-bottom: 16px;
-    }
-    .promo-block p {
-      color: #ddd; font-size: 1rem; max-width: 800px;
-      margin: 0 auto; line-height: 1.6;
-    }
-
-    /* FEATURES GRID */
-    .features {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
-      gap: 24px; padding: 60px 20px;
-      background: var(--card-bg);
-    }
-    .features .card {
-      background: var(--card-bg); padding: 28px;
-      border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-      text-align: center; transition: background 0.3s;
-    }
-    .features .card:hover { background: var(--hover-bg); }
-    .features .card i {
-      font-size: 2rem; margin-bottom: 12px; color: var(--accent);
-    }
-    .features .card h3 { font-size: 1.2rem; margin-bottom: 8px; }
-    .features .card p { font-size: 0.95rem; color: #ccc; }
-
-    /* BLOG IMAGE PLACEHOLDER */
-    .blog-image-placeholder {
-      width: 100%; max-width: 720px;
-      height: 360px; margin: 24px auto;
-      background: linear-gradient(135deg, #004d26, #00cc66);
-      border-radius: 12px;
-      box-shadow: 0 0 12px rgba(0,255,128,0.4);
-      display: flex; align-items: center; justify-content: center;
-      color: #fff; font-weight: 600; font-size: 1.1rem;
-      text-shadow: 0 0 6px rgba(0,0,0,0.3);
-    }
-
-    /* TRUSTED (WHITE BG) */
-    .trusted-banner {
-      background: var(--white);
-      color: var(--dark-text);
-      text-align: center;
-      padding: 60px 20px;
-    }
-    .trusted-banner h2 {
-      font-size: 2rem; font-weight: 700; margin-bottom: 12px;
-    }
-    .trusted-banner p {
-      font-size: 1.1rem; font-weight: 500; line-height: 1.6;
-    }
-
-    /* INNOVATION (BLACK BG) */
-    .innovation-section {
-      background: var(--black);
-      color: var(--text-light);
-      text-align: center;
-      padding: 60px 20px;
-    }
-    .innovation-section h2 {
-      font-size: 1.8rem; font-weight: 600; margin-bottom: 24px;
-      text-transform: uppercase;
-    }
-    .cac-placeholder {
-      margin-top: 24px;
-    }
-    .cac-placeholder img {
-      max-width: 240px; border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.5);
-    }
-
-    /* JOIN NOW + CAC (WHITE BG) */
-    .join-section {
-      background: var(--white);
-      color: var(--dark-text);
-      text-align: center;
-      padding: 60px 20px;
-    }
-    .join-section .btn-glow { margin-bottom: 24px; }
-
-    /* FAQ (BLACK BG) */
-    #faq {
-      background: var(--card-bg);
-      padding: 60px 20px;
-    }
-    #faq h2 {
-      text-align: center; margin-bottom: 32px;
-      color: #fff; font-size: 1.8rem; font-weight: 600;
-    }
-    .accordion {
-      max-width: 700px; margin: auto;
-      border-top: 1px solid var(--faq-border);
-    }
-    .accordion-item {
-      border-bottom: 1px solid var(--faq-border);
-    }
-    .accordion-item button {
-      width: 100%; padding: 16px; background: none;
-      border: none; color: inherit; font-size: 1rem;
-      display: flex; justify-content: space-between;
-      cursor: pointer;
-    }
-    .accordion-item .content {
-      display: none; padding: 0 16px 16px;
-      font-size: 0.95rem; color: #bbb;
-    }
-    .package-comparison {
-  background: #fff;
-  padding: 60px 20px;
-  text-align: center;
-}
-.package-comparison .package-image {
-  max-width: 820px;
-  width: 100%;
-  margin: 0 auto;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-.package-caption {
-  margin-top: 24px;
-  color: #111;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-}
-.package-caption h2 {
-  font-size: 1.8rem;
-  margin-bottom: 12px;
-}
-.package-caption p {
+.accordion-item button {
+  font-style: normal;
+  font-weight: 600;
   font-size: 1rem;
-  line-height: 1.6;
+  color: #eef1f3;
+  background: none;
+  border: none;
+  width: 100%;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: left;
+  cursor: pointer;
 }
 
-    /* FOOTER */
-    footer {
-      background: var(--card-bg);
-      color: var(--text-light);
-      text-align: center;
-      padding: 40px 20px;
-      border-top: 1px solid rgba(255,255,255,0.05);
-    }
-    footer .footer-logo {
-      height: 50px; margin-bottom: 16px;
-    }
-    .footer-nav {
-      display: flex; justify-content: center;
-      gap: 24px; margin-bottom: 24px;
-      flex-wrap: wrap;
-    }
-    .footer-nav a {
-      color: var(--text-light); font-weight: 500;
-    }
-    .footer-nav a:hover { color: var(--accent); }
-    .social-icons {
-      display: flex; justify-content: center;
-      gap: 16px; margin-bottom: 16px;
-    }
-    .social-icons a {
-      color: var(--accent); font-size: 1.4rem;
-      transition: transform 0.2s;
-    }
-    .social-icons a:hover {
-      transform: scale(1.2) rotate(-10deg);
-      color: #fff;
-    }
-    .copyright {
-      font-size: 0.9rem; color: #777;
-    }
+.accordion-item button .faq-question {
+  flex: 1;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #fff;
+  letter-spacing: 0.2px;
+}
 
-    /* SCROLL-TO-TOP DRAWER */
-    #scrollTop {
-      position: fixed; bottom: 32px; right: 32px;
-      display: none; width: 48px; height: 48px;
-      background: var(--accent); color: #000;
-      border-radius: 50%; display: flex;
-      align-items: center; justify-content: center;
-      font-size: 1.2rem; cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
-      z-index: 1000;
-    }
+.accordion-item button i {
+  font-size: 0.95rem;
+  color: #ccc;
+  margin-left: 12px;
+}
 
-    @media (max-width: 600px) {
-      .hero .large-tagline { font-size: 2rem; }
-      .hero p { font-size: 1rem; }
-      .hero-graphic { display: none; }
+/* Keep the chevron size balanced */
+.accordion-item button i {
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+.accordion-item {
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 6px;
+}
+
+    /* Footer */
+    footer{margin-top:28px;background:var(--card);padding:36px 20px;border-top:1px solid rgba(255,255,255,0.03)}
+    .footer-nav{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:18px}
+    .social-icons{display:flex;gap:12px;justify-content:center;margin-bottom:14px}
+    .copyright{color:var(--muted);text-align:center;font-size:0.92rem}
+    #hero-video iframe {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  border-radius: 12px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+}
+
+    /* Scroll top */
+    #scrollTop{position:fixed;right:26px;bottom:28px;width:46px;height:46px;border-radius:50%;background:var(--primary);display:none;align-items:center;justify-content:center;color:#fff;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,0.45)}
+
+    @media (max-width:760px){
+      .tag-large{font-size:1.9rem}
+      .content-image{min-height:160px}
+      header{padding:10px}
+      #menuOverlay{right:12px}
     }
   </style>
 </head>
-
 <body>
-
-  <!-- HEADER -->
+  <!-- Header -->
   <header>
-    <div class="logo-area">
-      <img
-        src="https://i.ibb.co/BVbFg0t8/23a8cc6a4933f22ba7c4740a9be7c3373f031124-md-WBW.png"
-        alt="Ethereal Logo"
-        class="logo-img"
-      />
+    <div class="logo"><img src="https://i.ibb.co/p7wfDpg/Untitled-design-20251003-141513-0000-removebg-preview.png" alt="Magnus Logo"></div>
+
+    <div class="nav-actions">
+      <div class="signup-tight">
+        <button class="btn" onclick="location.href='signup.html'">Sign Up</button>
+      </div>
+
+      <button id="menuBtn" class="menu-btn" aria-label="Open menu">
+        <span class="line"></span><span class="line"></span><span class="line"></span>
+      </button>
     </div>
 
-    <button class="get-started-button" onclick="location.href='signup.html'">
-  Join Now
-</button>
-
-    <button id="menuBtn" class="menu-btn">
-      <span class="line"></span>
-      <span class="line"></span>
-      <span class="line"></span>
-    </button>
-
-    <div id="menuOverlay">
+    <div id="menuOverlay" aria-hidden="true">
       <ul>
         <li><a href="#hero">Home</a></li>
-        <li><a href="#mission">About</a></li>
-        <li><a href="#faq">FAQs</a></li>
+        <li><a href="#features">Features</a></li>
+        <li><a href="#faq">FAQ</a></li>
         <li><a href="signup.html">Sign Up</a></li>
         <li><a href="terms.html">Terms</a></li>
         <li><a href="privacy.html">Privacy</a></li>
@@ -406,278 +216,228 @@
     </div>
   </header>
 
-  <!-- HERO -->
-  <section class="hero" id="hero">
-    <span class="small-tagline">Present is the past,</span>
-    <span class="large-tagline">The Future is Now.</span>
-    <p>
-      We Are the Architects of Ingenious Creations, Just for You to Harness the Power of
-      the Future to your own Leverage.
-    </p>
-    <button class="get-started-button" onclick="location.href='signup.html'">
-  Get Started
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-    <path d="M8 5v14l11-7z"/>
-  </svg>
-</button>
-    <div class="hero-graphic">
-      <!-- Replace with your phone UI image -->
-      <img src="i dont know"
-      class="promo-img" alt="Ethereal App Preview" />
-    </div>
-  </section>
-
-  <!-- MISSION -->
-  <section class="promo-block" id="mission">
-    <img
-      src="https://i.ibb.co/Vc41bzKr/IMG-20250704-WA0249.jpg"
-      class="promo-img"
-      class="promo-img"
-      alt="App Mockup"
-    />
-    <h2>The Code Behind The Vision; What do We Stand For?</h2>
-    <p>
-      ETHEREAL WEB transcends the present, Forging & Designing futuristic pathways
-      that connect you with financial possibilities born from your Passions & Ecstasies.
-      <br /><br />
-      We are committed to providing our customers with exceptional service while
-      offering our employees the best training with different skills. We ensure
-      that every entrepreneur and user wanting to make a continuous sales of their
-      products, skills and services will get right varieties of customers and
-      patronages. The promoters of such products and services through networking
-      and marketing will also get adequate value back for their time spent.
-    </p>
-  </section>
-
-  <!-- FEATURES GRID -->
-  <section class="features">
-    <div class="card">
-      <i class="fas fa-brain"></i>
-      <h3>Modern Craft Skills</h3>
-      <p>
-        We offer you advanced 22nd-Century High-income skills that open the doors
-        to a Valuable life built on meaningful values and rewarding opportunities.
-        Learn, Earn, Get Certified.
-      </p>
-    </div>
-    <div class="card">
-      <i class="fas fa-store"></i>
-      <h3>Ethereal Trade Sector</h3>
-      <p>
-        We have creatively transformed to the biggest digital marketplace, Our
-        users upload their goods to our website and patronize or get patronized
-        by thousands of users visiting our website.
-      </p>
-    </div>
-    <div class="card">
-      <i class="fas fa-exchange-alt"></i>
-      <h3>Dual Flow Reward System</h3>
-      <p>Earn daily cash revenue from your superior’s and your team's efforts.</p>
-    </div>
-    <div class="card">
-      <i class="fas fa-robot"></i>
-      <h3>AI-Powered Blog Writing</h3>
-      <p>
-        We allow you to Publish your AI-Written articles on diverse topics to our
-        Website, Where you are paid for every view and engagement on your article.
-        We also act as a third party and allow you sell these generated Articles to
-        hiring Companies worldwide.
-      </p>
-    </div>
-
-    <!-- IMAGE SLOT AFTER AI BLOG -->
-  <section class="promo-block">
-    <img
-      src="https://i.ibb.co/qYt1rym4/MK13.jpg"
-      class="promo-img"
-      alt="Divider"
-    />
-  </section>
-    <div class="card">
-      <i class="fas fa-comments-dollar"></i>
-      <h3>Social Media Monetization</h3>
-      <p>
-        Every of your Social Action generates you rewards Unlimitedly. Connect your
-        Social media Accounts such as; WhatsApp, Snapchat and Tiktok with Ethereal
-        and Earn unrestrictedly on every social engagement you receive or give.
-      </p>
-    </div>
-    <div class="card">
-      <i class="fas fa-rocket"></i>
-      <h3>Social Boost</h3>
-      <p>
-        You can gain brand recognition by just using an allocated portion of your
-        Activities earnings to purchase organic social followers & engagements
-        which would be done by Ethereal users.
-      </p>
-    </div>
-    <div class="card">
-      <i class="fas fa-gamepad"></i>
-      <h3>Games</h3>
-      <p>
-        We have integrated a system of inventions in which your already doing
-        activities grant you rewards immensely, Such as Playing fun known Games
-        like Candy crush on our website. The more you play, the more you Earn rewards.
-      </p>
-    </div>
-    <div class="card">
-      <i class="fas fa-wifi"></i>
-      <h3>Instant Data Freebie</h3>
-      <p>
-        We have allocated daily revenue pool of data bonuses of different network
-        providers to our newly registered Users randomly. You receive instant Data
-        bonus automatically via your registered phone number upon completion of
-        your Enrollment.
-      </p>
-    </div>
-  </section>
-
-  <!-- TRUSTED WHITE BANNER -->
-  <section class="package-comparison">
-  <img
-    src="https://i.ibb.co/FqYqp9yZ/IMG-20250725-WA0164-1.jpg"
-    alt="Ethereal vs Ethereal-X Comparison"
-    class="package-image"
-  />
-  <div class="package-caption">
-    <h2>Compare Ethereal Packages</h2>
-    <p>
-      Whether you're starting out or leveling up, choose the plan that unlocks your full earning potential on Ethereal.<br />
-      <strong>$9 Ethereal Package</strong> vs <strong>$14 Ethereal-X</strong> — packed with AI earnings, unlimited games, and global market access.
-    </p>
-  </div>
+<!-- Hero video (top) -->
+<section id="hero-video" style="padding: 20px;">
+  <iframe 
+    src="https://player.vimeo.com/video/1124222790" 
+    width="100%" 
+    height="360" 
+    frameborder="0" 
+    allow="autoplay; fullscreen; picture-in-picture" 
+    allowfullscreen>
+  </iframe>
 </section>
 
-  <!-- INNOVATION & CAC -->
-  <section class="innovation-section">
-    <h2>INNOVATION AND EFFICIENCY IN EVERY TRANSACTION</h2>
-        <button class="get-started-button" onclick="location.href='signup.html'">
-  Join Now
-</button>
+  <!-- Hero -->
+  <section class="hero" id="hero">
+    <span class="tag-small">Empower Your Future</span>
+    <h1 class="tag-large">Magnus Makes It Simple</h1>
+    <p>Magnus provides tools to grow your online revenue, manage social impact, and unlock opportunities worldwide.</p>
 
-
-    <div class="cac-placeholder">
-      <!-- Replace with your real CAC certificate image -->
-      <img src="https://i.ibb.co/svRZwYck/IMG-20250703-155141-609.jpg" alt="CAC Certificate" />
+    <div class="actions">
+      <button class="btn" onclick="location.href='signup.html'">Get Started <i class="fas fa-arrow-right" style="font-size:0.9rem;"></i></button>
     </div>
-  </section>
 
-  <!-- FAQ -->
-  <section id="faq">
-    <h2>Explore Our Frequently Asked Questions</h2>
-    <div class="accordion">
-      <div class="accordion-item">
-        <button onclick="toggleFaq(this)">
-          How Do I Sign Up? <i class="fas fa-chevron-down"></i>
-        </button>
-        <div class="content">
-          <ul>
-            <li>Click the join now botton and fill in your enrollment details.</li>
-            <li>Select your country click on "sign up" subcribe by selecting a preferred package</li>
-            <li>Your data is secured with decentralized actions—you’re in control.</li>
-            <li>After enrollment, step-by-step guides appear in your dashboard.</li>
-          </ul>
-        </div>
-      </div>
-      <div class="accordion-item">
-        <button onclick="toggleFaq(this)">
-          How Do I Make Money With the ETHEREAL Features? <i class="fas fa-chevron-down"></i>
-        </button>
-        <div class="content">
-          <ul>
-            <li>Promote skills, marketplace products & social boosts for revenue shares.</li>
-            <li>Earn from games, article views, ad engagement, and social actions.</li>
-          </ul>
-        </div>
-      </div>
-      <div class="accordion-item">
-        <button onclick="toggleFaq(this)">
-          What is the coverage of the Ethereal network? <i class="fas fa-chevron-down"></i>
-        </button>
-        <div class="content">
-          <p>Our inventions span the globe—every country, race, and nation can participate.</p>
-        </div>
-      </div>
-      <div class="accordion-item">
-        <button onclick="toggleFaq(this)">
-          How can I contact Ethereal customer service? <i class="fas fa-chevron-down"></i>
-        </button>
-        <div class="content">
-          <p>We’re available 24/7 for unbeatable support.</p>
-          <p>
-            ✉ <a href="mailto:Etherealafrica@gmail.com">Etherealafrica@gmail.com</a><br />
-            💬 <a href="https://t.me/etherealafrica">t.me/etherealafrica</a>
-          </p>
-        </div>
+    <!-- FIRST IMAGE: after Get Started -->
+    <div class="image-wrap" id="image-after-getstarted" style="margin-top:20px">
+      <img src="https://i.ibb.co/Hf1F0WfQ/IMG-20251003-WA0055.jpg" alt="How it works" class="content-image">
+      <div class="image-caption">
+        <h4>HOW IT WORKS</h4>
+        <p>
+MAGNUS is a digital marketplace designed to help you gain hot-in-demand skills and access powerful digital products like trading tools, signals, analytics, and courses. It gives you the freedom to either use these products for personal growth or resell them for profit. With flexible entry plans, instant earning opportunities, and global job offers, MAGNUS is your shortcut to learning, earning, and building digital wealth.
+
+— Trading Tools — Stay ahead in the markets
+— Signals & Analytics — Make smarter decisions
+— Hot Courses — Learn practical skills quickly
+— Resale Rights — Earn while others are still learning
+        </p>
       </div>
     </div>
   </section>
 
-  <!-- FOOTER -->
+  <!-- Features with second image between items -->
+  <section class="features" id="features">
+    <div class="card">
+      <i class="fas fa-rocket" aria-hidden="true"></i>
+      <h3>Fast Growth</h3>
+      <p>Boost your business and online presence rapidly using our integrated tools.</p>
+    </div>
+
+    <div class="card">
+      <i class="fas fa-coins" aria-hidden="true"></i>
+      <h3>Earn Rewards</h3>
+      <p>Multiple monetization channels let you earn from social actions, games, and AI content.</p>
+    </div>
+
+    <!-- SECOND IMAGE: spans full width of features -->
+    <div class="image-wrap" id="image-middle-in-features" role="region" aria-label="Magnus plan">
+      <img src="https://i.ibb.co/v4qxxzgc/IMG-20251003-WA0033.jpg" alt="Magnus plan" class="content-image">
+      <div class="image-caption">
+        <h4>Magnus plan</h4>
+        <p>
+3 Flexible Entry Plans
+
+MAGNUS BUSINESS — ₦28,500
+• Unlimited digital products
+• Full resale rights (use and resell freely)
+• Create and sell your own digital products
+• Instant job opportunity after skill acquisition
+• Commissions: Direct ₦17,100 | Indirect ₦1,300
+
+MAGNUS PRO — ₦17,500
+• Access to limited products
+• Low resale rights (may include restrictions)
+• Learn skills for personal growth and career boost
+• PR entry opportunities up to ₦985 every 2 minutes when available
+• Commissions: Direct ₦11,500 | Indirect ₦650
+
+MAGNUS LITE — ₦11,500
+• One digital product
+• No resale rights (earn via referrals and data entry)
+• PR entry opportunities up to ₦985 every 2 minutes when available
+• Commissions: Direct ₦7,500 | Indirect ₦350
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <i class="fas fa-globe" aria-hidden="true"></i>
+      <h3>Global Access</h3>
+      <p>Connect with a worldwide network of customers, creators, and partners seamlessly.</p>
+    </div>
+
+    <div class="card">
+      <i class="fas fa-brain" aria-hidden="true"></i>
+      <h3>AI Assistance</h3>
+      <p>Leverage AI tools for content creation, analytics, and personalized growth strategies.</p>
+    </div>
+  </section>
+
+  <!-- Third image before FAQ -->
+  <section id="pre-faq-image" class="image-wrap">
+    <img src="https://i.ibb.co/gbjMH6dx/IMG-20251003-WA0027.jpg" alt="Why Magnus" class="content-image">
+    <div class="image-caption">
+      <h4>Why Magnus?</h4>
+      <p>
+Magnus is a trusted place to be! With full authorisation to operate.
+
+☀️We are 1SO 27001 Certified. 
+
+☀️We are 1SO 22301 Certified. 
+
+☀️NG. Govt. Approved!
+        
+Earnings potential
+• Profit ₦5,000+ per sale
+• Company handles advertising and logistics
+• Free resale setup manual (1–72 hrs sales cycle)
+• Multiple income streams: Skills, Resale, Commissions, Global job opportunities
+
+Job & skill advantage
+• Acquire high-demand skills quickly
+• Employment opportunities with global pay (example: ₦5,000/hour)
+• Scalable income potential through product sales and commissions
+
+Why choose MAGNUS?
+• Affordable entry plans
+• In-demand digital products
+• Multiple ways to earn
+• Freedom to learn, use, or resell
+• We handle operations so you capture the profits
+      </p>
+    </div>
+  </section>
+
+<!-- FAQ -->
+<section id="faq">
+  <h2>Frequently Asked Questions</h2>
+  <div class="accordion">
+    <div class="accordion-item">
+      <button onclick="toggleFaq(this)">What is the Magnus website and how does the Magnus Platform help me earn? <i class="fas fa-chevron-down"></i></button>
+      <div class="content">
+        <ul>
+          <li>Magnus Platform is a value-driven digital retail and skills ecosystem. You can earn from smartphone tasks, streaming jobs, and transparent referral rewards on the Magnus Website with fast NGN withdrawals after Magnus registration.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <button onclick="toggleFaq(this)">How do I earn on Magnus? <i class="fas fa-chevron-down"></i></button>
+      <div class="content">
+        <ul>
+          <li>Sell digital products with resale rights.</li>
+          <li>Earn commissions from direct and indirect sales.</li>
+          <li>Participate in PR entry jobs and platform tasks when available.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <button onclick="toggleFaq(this)">How do I complete Magnus registration on the Magnus website? <i class="fas fa-chevron-down"></i></button>
+      <div class="content">
+        <p>Fill the short form above and proceed to payment. After Magnus registration, your login is activated and you can access tasks and jobs directly on the Magnus Website or via Magnus Official Group guides.</p>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <button onclick="toggleFaq(this)">Do I need referrals to earn on the Magnus website? <i class="fas fa-chevron-down"></i></button>
+      <div class="content">
+        <p>No. You can earn via tasks and streaming jobs even without referrals. Referrals are optional boosters. Your dashboard on the Magnus Website explains each earning route clearly.</p>
+      </div>
+    </div>
+  </div>
+</section>
+  <!-- Footer -->
   <footer>
-    <img
-      src="https://i.ibb.co/BVbFg0t8/23a8cc6a4933f22ba7c4740a9be7c3373f031124-md-WBW.png"
-      alt="Ethereal Logo"
-      class="footer-logo"
-    />
-    <div class="footer-nav">
-      <a href="#hero">Home</a>
-      <a href="#mission">About</a>
-      <a href="#faq">FAQs</a>
-      <a href="terms.html">Terms</a>
-      <a href="privacy.html">Privacy</a>
-    </div>
+    <nav class="footer-nav">
+      <a href="#hero">Home</a><a href="#features">Features</a><a href="#faq">FAQ</a><a href="terms.html">Terms</a><a href="privacy.html">Privacy</a>
+    </nav>
+
     <div class="social-icons">
-      <a href="https://t.me/etherealafrica" target="_blank">
-        <i class="fab fa-telegram-plane"></i>
-      </a>
-      <a href="https://www.tiktok.com/@etherealafrica5" target="_blank">
-        <i class="fab fa-tiktok"></i>
-      </a>
-      <a href="https://www.facebook.com/share/16mGCcNKHb/" target="_blank">
-        <i class="fab fa-facebook-f"></i>
-      </a>
-      <a href="https://www.instagram.com/etherealafrica5" target="_blank">
-        <i class="fab fa-instagram"></i>
-      </a>
-      <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
-      <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+      <a href="https://t.me/magnus_support" target="_blank" rel="noopener"><i class="fab fa-telegram-plane"></i></a>
+      <a href="https://www.tiktok.com/@magnus" target="_blank" rel="noopener"><i class="fab fa-tiktok"></i></a>
+      <a href="https://www.facebook.com/magnus" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://www.instagram.com/magnus" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a>
     </div>
-    <div class="copyright">© 2025 Ethereal. All rights reserved.</div>
+
+    <div class="copyright">© 2025 Magnus. All rights reserved.</div>
   </footer>
 
-  <!-- Scroll-to-Top -->
-  <div id="scrollTop">↑</div>
+  <div id="scrollTop" title="Back to top">↑</div>
 
   <script>
     // Menu toggle
-    document.getElementById('menuBtn').onclick = () => {
-      document.getElementById('menuOverlay').classList.toggle('open');
-    };
+    const menuBtn = document.getElementById('menuBtn');
+    const menuOverlay = document.getElementById('menuOverlay');
+    if (menuBtn && menuOverlay) menuBtn.addEventListener('click', () => menuOverlay.classList.toggle('open'));
 
-    // FAQ accordion with auto-collapse
-    function toggleFaq(btn) {
-      document.querySelectorAll('.accordion-item').forEach(item => {
+    // FAQ accordion
+    function toggleFaq(btn){
+      document.querySelectorAll('.accordion-item').forEach(item=>{
         const content = item.querySelector('.content');
-        if (item.contains(btn)) {
-          content.style.display = (content.style.display === 'block') ? 'none' : 'block';
-          btn.querySelector('i').classList.toggle('fa-chevron-up');
-          btn.querySelector('i').classList.toggle('fa-chevron-down');
+        if(item.contains(btn)){
+          const open = content.style.display === 'block';
+          content.style.display = open ? 'none' : 'block';
+          const icon = btn.querySelector('i');
+          if(icon){ icon.classList.toggle('fa-chevron-up', !open); icon.classList.toggle('fa-chevron-down', open); }
         } else {
-          content.style.display = 'none';
-          item.querySelector('i.fa-chevron-up')?.classList.replace('fa-chevron-up','fa-chevron-down');
+          const c = item.querySelector('.content');
+          if(c) c.style.display = 'none';
+          const icon = item.querySelector('i'); if(icon){ icon.classList.remove('fa-chevron-up'); icon.classList.add('fa-chevron-down'); }
         }
       });
     }
 
-    // Scroll-to-top button
+    // Scroll-to-top
     const scrollTop = document.getElementById('scrollTop');
     window.addEventListener('scroll', () => {
-      scrollTop.style.display = window.scrollY > 200 ? 'flex' : 'none';
+      if (!scrollTop) return;
+      scrollTop.style.display = window.scrollY > 240 ? 'flex' : 'none';
     });
-    scrollTop.onclick = () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
+    if (scrollTop) scrollTop.addEventListener('click', ()=> window.scrollTo({top:0,behavior:'smooth'}));
+
+    // Accessibility hints: ensure alt text and replace placeholder sources with real assets
+    // Replace: top-video.mp4, video-poster.jpg, image-1.jpg, image-2.jpg, image-3.jpg
   </script>
 </body>
-</html>
+                                                                                                                    </html>
