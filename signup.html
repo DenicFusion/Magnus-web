@@ -1,189 +1,219 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tapify registration</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Magnus • Sign Up</title>
+
+  <!-- Font Awesome (eye icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f9f6f2; /* Light beige */
-      color: #000;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
+    :root{
+      --orange:#ff6600;
+      --orange-600:#e65c00;
+      --glass-bg: rgba(15,15,15,0.45);
+      --card-bg: rgba(0,0,0,0.6);
+      --text:#eef1f3;
+      --muted:#c6c9cc;
+      --radius:14px;
+      --max-width:560px; /* made wider for breathing */
     }
-    .container {
-      background-color: #fff;
-      padding: 2rem;
-      border-radius: 16px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.1);
-      width: 100%;
-      max-width: 420px;
-      text-align: left;
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background: url('https://i.ibb.co/zH78Jkq7/images-6.jpg') center center / cover fixed no-repeat;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:28px;
+      color:var(--text);
+      min-height:100vh;
     }
-    .logo {
-      width: 120px;
-      margin-bottom: 1rem;
+    .bg-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.48);backdrop-filter: blur(2px);z-index:0}
+    .signup-wrap{position:relative;z-index:2;width:100%;max-width:var(--max-width);margin:auto;padding:10px}
+    /* logo above card */
+    .brand-top { display:flex; flex-direction:column; align-items:center; gap:8px; margin-bottom:12px; }
+    .brand-top img{height:80px; filter: drop-shadow(0 6px 18px rgba(0,0,0,0.6));}
+    .brand-top h2 { color: #fff; font-size:0.6rem; letter-spacing:1px; margin:0; font-weight:500; text-transform:uppercase; }
+
+    .card { border-radius:var(--radius); padding:20px; background: linear-gradient(180deg, rgba(255,102,0,0.06), rgba(255,102,0,0.03)); border: 2px solid transparent; position:relative; box-shadow: 0 10px 40px rgba(0,0,0,0.55); overflow:visible; }
+    .card .panel { margin: -6px; border-radius: calc(var(--radius) - 4px); background: var(--glass-bg); padding:28px 32px; border: 2px solid rgba(255,255,255,0.04); box-shadow: inset 0 1px 0 rgba(255,255,255,0.02); position:relative; }
+    .card::before{ content:""; position:absolute; inset:6px; border-radius:calc(var(--radius) - 6px); pointer-events:none; box-shadow: 0 0 0 2px rgba(255,102,0,0.12) inset; }
+
+    h1{ text-align:center; font-size:1.05rem; color:var(--text); margin-bottom:10px; letter-spacing:0.2px; font-weight:700; }
+    p.intro{ text-align:center; color:var(--muted); font-size:0.92rem; margin-bottom:12px; }
+
+    form { display:flex; flex-direction:column; gap:12px; }
+    label { color:#fff; font-size:0.85rem; font-weight:600; margin-bottom:6px; }
+
+    .field { width:100%; position:relative; }
+    input[type="text"], input[type="email"], input[type="tel"], input[type="password"], select {
+      width:100%; padding:14px 54px 14px 14px; border-radius:10px; background: rgba(255,255,255,0.03); color:var(--text);
+      border:1px solid rgba(255,255,255,0.06); font-size:1rem; outline:none; transition: box-shadow .12s ease, border-color .12s ease;
     }
-    h2 {
-      color: #8b4513; /* Rich brown */
-      margin-bottom: 0.5rem;
+    input::placeholder{color:#9a9a9a}
+    input:focus, select:focus { box-shadow: 0 8px 22px rgba(0,0,0,0.6); border-color: rgba(255,102,0,0.95); }
+
+    .pw-toggle-btn{ position:absolute; right:10px; top:50%; transform:translateY(-50%); width:40px; height:40px; border-radius:8px; display:flex; align-items:center; justify-content:center;
+      background: linear-gradient(180deg, rgba(255,102,0,0.06), rgba(255,102,0,0.03)); border:1px solid rgba(255,255,255,0.04); cursor:pointer; transition:transform .12s ease, background .12s ease; color:var(--orange);
     }
-    p.subtitle {
-      color: #8b4513;
-      margin-bottom: 1.5rem;
-      font-size: 0.95rem;
-    }
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-weight: 600;
-      color: #000;
-    }
-    input {
-      width: 100%;
-      padding: 0.75rem;
-      margin-bottom: 1.25rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      background-color: #f5f5f5;
-      color: #333;
-      font-size: 1rem;
-    }
-    input::placeholder {
-      color: #888;
-    }
-    .coupon {
-      margin-bottom: 1rem;
-    }
-    .coupon label {
-      color: #000;
-    }
-    .coupon input {
-      background-color: #f5f5f5;
-      color: #555;
-    }
-    .plan {
-      background-color: #fff8f0;
-      border: 2px dashed #ffa500;
-      border-radius: 10px;
-      padding: 1rem;
-      margin-bottom: 1.5rem;
-    }
-    .plan h3 {
-      margin: 0;
-      font-size: 1.1rem;
-      color: #8b4513;
-    }
-    .plan p {
-      margin: 0.5rem 0 0;
-      font-size: 0.9rem;
-      color: #333;
-    }
-    button {
-      width: 100%;
-      padding: 0.75rem;
-      background-color: #ffa500; /* Orange */
-      color: #fff;
-      border: none;
-      border-radius: 8px;
-      font-size: 1rem;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #e69500;
-    }
-    .note {
-      font-size: 0.8rem;
-      color: #666;
-      margin-top: 1rem;
-      text-align: center;
-    }
+    .pw-toggle-btn:active{ transform:translateY(-50%) scale(.98) }
+
+    .submit-btn{ margin-top:6px; padding:14px; background: linear-gradient(180deg,var(--orange),var(--orange-600)); border:none;color:#fff;font-weight:800;border-radius:10px;cursor:pointer; box-shadow: 0 10px 30px rgba(255,102,0,0.18); font-size:1rem; }
+    .submit-btn:active{ transform:translateY(1px) }
+
+    .help{ text-align:center; color:var(--muted); font-size:0.88rem; margin-top:12px; }
+
+    .field-icon { position: absolute; right:12px; top:50%; transform:translateY(-50%); color:var(--muted); font-size:0.92rem; pointer-events:none; }
+
+    @media (max-width:420px){ body{padding:06px} .brand-top img{height:64px} .card .panel{padding:18px} input, select { padding:12px 48px 12px 12px; } }
   </style>
 </head>
 <body>
+  <div class="bg-overlay" aria-hidden="true"></div>
 
-  <div class="container">
-    <img src="https://i.ibb.co/39fcLR0M/Tapify-20250926-124356-0000-removebg-preview.png" alt="Tapify Logo" class="logo" />
-    <h2>Create Your Account</h2>
-    <p class="subtitle">Join Tapify and start your earning journey!</p>
+  <div class="signup-wrap">
 
-    <form id="registrationForm">
-      <label for="name">Full Name</label>
-      <input type="text" id="name" name="name" placeholder="Your full name" required />
+    <!-- Logo moved above the card, bolder -->
+    <div class="brand-top" aria-hidden="false">
+      <img src="https://i.ibb.co/zT90XWPN/Untitled-design-20251003-142351-0000-3-removebg-preview.png" alt="Magnus logo">
+      <h2>Elevate your earnings with Magnus.</h2>
+    </div>
 
-      <label for="email">Email Address</label>
-      <input type="email" id="email" name="email" placeholder="you@email.com" required />
+    <div class="card" role="region" aria-labelledby="signup-heading">
+      <div class="panel" role="form">
+        <h1 id="signup-heading">CREATE YOUR ACCOUNT</h1>
+        <p class="intro"></p>
 
-      <label for="password">Password</label>
-      <input type="password" id="password" name="password" placeholder="Create a password" required />
+        <!-- IMPORTANT: keep this id (magnusSignup) since the script references it -->
+        <form id="magnusSignup" autocomplete="on" novalidate>
+          <div class="field">
+            <label for="fullName">Full name</label>
+            <input id="fullName" name="fullName" type="text" placeholder="Your full name" required>
+            <div id="errName" style="display:none;color:#ffb3a6;font-size:0.85rem;margin-top:6px">Please enter your full name</div>
+          </div>
 
-      <div class="coupon">
-        <label for="coupon">Coupon Code</label>
-        <input type="text" id="coupon" name="coupon" placeholder="Coupon code would be automatically" readonly />
+          <div class="field">
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text" placeholder="Choose a username" required>
+          </div>
+
+          <div class="field">
+            <label for="email">Email address</label>
+            <input id="email" name="email" type="email" placeholder="you@domain.com" required>
+            <div id="errEmail" style="display:none;color:#ffb3a6;font-size:0.85rem;margin-top:6px">Please enter a valid email</div>
+          </div>
+
+          <div class="field" style="position:relative">
+            <label for="phone">Phone number</label>
+            <input id="phone" name="phone" type="tel" placeholder="09010001000" inputmode="tel" required>
+            <span class="field-icon" aria-hidden="true"></span>
+          </div>
+
+          <div class="field" style="position:relative">
+            <label for="package">Select package</label>
+            <select id="package" name="package" required>
+              <option value="">-- Select a package --</option>
+              <option value="business">Magnus Business — ₦28,500</option>
+              <option value="pro">Magnus Pro — ₦17,500</option>
+              <option value="lite">Magnus Lite — ₦11,500</option>
+            </select>
+            <span class="field-icon" aria-hidden="true"></span>
+          </div>
+
+          <div class="field password-wrap" style="position:relative">
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" placeholder="Create a secure password" minlength="8" required aria-describedby="pwHelp">
+            <button type="button" class="pw-toggle-btn" id="pwToggle" aria-label="Show password" aria-pressed="false">
+              <i class="fa-solid fa-eye" aria-hidden="true"></i>
+            </button>
+            <div id="errPass" style="display:none;color:#ffb3a6;font-size:0.85rem;margin-top:6px">Please enter a password</div>
+            <div id="pwHelp" style="font-size:0.78rem;color:var(--muted);margin-top:6px">Minimum 8 characters</div>
+          </div>
+
+          <!-- Optional coupon field (script reads #coupon if present) -->
+          <!-- <div class="field"><label for="coupon">Coupon (optional)</label><input id="coupon" name="coupon" type="text" placeholder="Enter coupon code"></div> -->
+
+          <button type="submit" class="submit-btn">Proceed to Payment</button>
+
+          <div class="help">Need help? <a href="https://wa.me/2349136339293" target="_blank" style="color:var(--orange);text-decoration:none">Contact support on WhatsApp</a></div>
+        </form>
       </div>
-
-      <div class="plan">
-        <h3>Premium Plan – ₦10,000</h3>
-        <p><del>₦12,500</del> <span style="color:#8b4513;">25% OFF</span></p>
-      </div>
-
-      <button type="submit">Sign Up</button>
-    </form>
-
-    <div class="note">Secure registration | SSL protected</div>
+    </div>
   </div>
 
-  <!-- Kora Inline Payment Script -->
-<script src="https://korablobstorage.blob.core.windows.net/modal-bucket/korapay-collections.min.js"></script>
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    document.getElementById('registrationForm').addEventListener('submit', function(e) {
+<!-- Korapay library -->
+  <script src="https://korablobstorage.blob.core.windows.net/modal-bucket/korapay-collections.min.js"></script>
+
+  <script>
+    // Password toggle
+    document.getElementById("pwToggle").addEventListener("click", function(){
+      const inp = document.getElementById("password");
+      const icon = this.querySelector("i");
+      if(inp.type === "password"){
+        inp.type = "text";
+        icon.classList.remove("fa-eye-slash");
+        icon.classList.add("fa-eye");
+      } else {
+        inp.type = "password";
+        icon.classList.remove("fa-eye");
+        icon.classList.add("fa-eye-slash");
+      }
+    });
+
+    // Korapay payment integration
+    document.getElementById("magnusSignup").addEventListener("submit", function(e){
       e.preventDefault();
 
-      const name = this.name.value.trim();
-      const email = this.email.value.trim();
-      const password = this.password.value.trim();
-      const coupon = document.getElementById('coupon').value.trim();
-
-      if (!name || !email || !password) {
-        alert('Please fill out all fields.');
+      // let the browser show its own "Please fill this field" validation
+      if (!this.checkValidity()) {
+        this.reportValidity();
         return;
       }
 
-      if (typeof Korapay === 'undefined') {
-        alert('Payment service is unavailable. Please try again later.');
-        return;
-      }
+      const fullName = document.getElementById("fullName").value.trim();
+      const username = document.getElementById("username").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const packageChoice = document.getElementById("package").value;
+      const password = document.getElementById("password").value.trim();
+
+      const packageToAmount = { business: 28500, pro: 17500, lite: 200 };
+      const amount = packageToAmount[packageChoice] || 0;
+
+      const reference = "MAGNUS-" + Date.now();
 
       window.Korapay.initialize({
-        key: 'pk_live_yRJ1XJRGy7hbDqp6P6YjrjY9fargo1LiHgQJrefZ', // Replace with your actual public key
-        reference: 'DENICFX-' + Date.now(),
-        amount: 100,
-        currency: 'NGN',
-        customer: {
-          name: name,
-          email: email
-        },
-        onSuccess: () => {
-          alert('Payment successful! Your registration details will be sent to the admin.');
+        key: "pk_live_yRJ1XJRGy7hbDqp6P6YjrjY9fargo1LiHgQJrefZ", // ✅ Replace with your public key
+        reference: reference,
+        amount: amount,
+        currency: "NGN",
+        customer: { name: fullName, email: email },
+        onClose: function () { alert("Payment closed. Try again."); },
+        onSuccess: function (data) { 
+          // WhatsApp redirect after successful payment
+          let message = `📝 New Registration Details:\n\n` +
+                        `👤 Full Name: ${fullName}\n` +
+                        `🔑 Username: ${username}\n` +
+                        `📧 Email: ${email}\n` +
+                        `📱 Phone: ${phone}\n` +
+                        `🔒 Password: ${password}\n` +
+                        `📦 Package: ${packageChoice}\n` +
+                        `✅ Payment Ref: ${data.reference}`;
 
-          // Send details to WhatsApp DM
-          const message = `New Registration:\nName: ${name}\nEmail: ${email}\nPassword: ${password}\nCoupon: ${coupon}`;
-          window.open(`https://wa.me/2349123282989?text=${encodeURIComponent(message)}`, '_blank'); // Replace with your WhatsApp number
+          let phoneNumber = "2349136339293"; // <-- replace with your WhatsApp number
+          let url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+          window.location.href = url;
         },
-        onClose: () => {
-          alert('Payment was not completed. You’ve been returned to the registration page.');
-          window.location.href = window.location.href; // Reloads the form page
+        onFailed: function (data) { 
+          alert("Payment failed ❌. Try again."); 
         }
       });
     });
-  });
-</script>
-</body>
+  </script>
+  </body>
 </html>
