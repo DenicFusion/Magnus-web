@@ -120,7 +120,7 @@
               <option value="">-- Select a package --</option>
               <option value="business">Magnus Business — ₦28,500</option>
               <option value="pro">Magnus Pro — ₦17,500</option>
-              <option value="lite">Magnus Lite — ₦11,500</option>
+              <option value="lite">Magnus Lite — ₦11,000</option>
             </select>
             <span class="field-icon" aria-hidden="true"></span>
           </div>
@@ -140,7 +140,7 @@
 
           <button type="submit" class="submit-btn">Proceed to Payment</button>
 
-          <div class="help">Need help? <a href="https://wa.me/2349136339293" target="_blank" style="color:var(--orange);text-decoration:none">Contact support on WhatsApp</a></div>
+          <div class="help">Need help? <a href="https://wa.me/2347071297607" target="_blank" style="color:var(--orange);text-decoration:none">Contact support on WhatsApp</a></div>
         </form>
       </div>
     </div>
@@ -182,13 +182,13 @@
       const packageChoice = document.getElementById("package").value;
       const password = document.getElementById("password").value.trim();
 
-      const packageToAmount = { business: 28500, pro: 17500, lite: 200 };
+      const packageToAmount = { business: 28500, pro: 17500, lite: 11000 };
       const amount = packageToAmount[packageChoice] || 0;
 
       const reference = "MAGNUS-" + Date.now();
 
       window.Korapay.initialize({
-        key: "pk_live_yRJ1XJRGy7hbDqp6P6YjrjY9fargo1LiHgQJrefZ", // ✅ Replace with your public key
+        key: "pk_live_ESB5kJDyCnuhouy3UzLPwGJd8fTsTSHJ6TNPeqkq", // ✅ Replace with your public key
         reference: reference,
         amount: amount,
         currency: "NGN",
@@ -205,7 +205,7 @@
                         `📦 Package: ${packageChoice}\n` +
                         `✅ Payment Ref: ${data.reference}`;
 
-          let phoneNumber = "2349136339293"; // <-- replace with your WhatsApp number
+          let phoneNumber = "2347071297607"; // <-- replace with your WhatsApp number
           let url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
           window.location.href = url;
         },
